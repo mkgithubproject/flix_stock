@@ -43,7 +43,7 @@
             "quantityAvailable":12
             }
             
--POST - /api/v1/customers/createOrder (Api to create an Order of an customer) <br>
+- POST - /api/v1/customers/createOrder (Api to create an Order of an customer) <br>
           {
             "productList":["6318c61c5ef3e5e8f88254e8","6318c64a5ef3e5e8f88254ea"],
             "paymentInfo":"COD",
