@@ -1,6 +1,7 @@
 const Customer=require('../../../models/customer');
 const Product=require("../../../models/product");
 const Order=require("../../../models/order");
+const { findById } = require('../../../models/customer');
 // API FOR CREATE A NEW CUSTOMER
 module.exports.create=async function(req,res){
     //console.log(req.body);
@@ -101,6 +102,31 @@ module.exports.ordersOfCustomer=async function(req,res){
     }
     catch(err){
         //console.log(err);
+        return res.status(500).json({
+            message: "Internal Server Error",
+        });
+    }
+}
+// Api to fetch customer Details with maximum Orders in an year
+module.exports.custDetailsMaxOrdersPerYear=async function(req,res){
+    try{
+      const filter = { "createdAt":{$gt:new Date(Date.now() - 365*24*60*60 * 1000)}};
+      let orders=await Order.aggregate([
+        { $match: filter },
+        {
+        $group: {
+            _id: '$customer',
+            count: { $sum: 1 }
+          }
+        },
+      ]).sort({count:-1}).limit(1);// sort in descending order
+      const customerMaxOrder=await Customer.findById(orders[0]._id);
+      return res.status(200).json({
+        message: "Customer has done maximum orders",
+        customer:customerMaxOrder,
+    });
+    }catch(err){
+        console.log(err);
         return res.status(500).json({
             message: "Internal Server Error",
         });

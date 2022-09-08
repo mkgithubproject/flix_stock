@@ -5,4 +5,5 @@ router.post('/create',customerController.create);
 router.get('/customersList',customerController.customersList);
 router.post('/createOrder',customerController.createOrder);
 router.get('/ordersOfCustomer',customerController.ordersOfCustomer);
+router.get('/custDetailsMaxOrdersPerYear',customerController.custDetailsMaxOrdersPerYear);
 module.exports=router;
